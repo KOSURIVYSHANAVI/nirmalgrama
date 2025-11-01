@@ -138,5 +138,25 @@
     "username": "jann",
     "password": "jann",
     "role": "officer"
+  },
+  {
+    "username": "vamsi",
+    "password": "vamsi",
+    "role": "officer"
+  },
+  {
+    "username": "babu",
+    "password": "babu",
+    "role": "villager"
+  },
+  {
+    "username": "కాత్యాయని",
+    "password": "voiceuser",
+    "role": "villager"
+  },
+  {
+    "username": "nani",
+    "password": "nani",
+    "role": "villager"
   }
 ]
