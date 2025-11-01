@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NirmalGrama - Login</title>
+  <title>NirmalGrama - Secure Login</title>
   <style>
     body {
       font-family: "Poppins", Arial, sans-serif;
@@ -15,36 +15,19 @@
       align-items: center;
       transition: background 0.5s ease;
     }
-
     body.signup-mode {
       background: linear-gradient(135deg, #a8e063, #56ab2f);
     }
-
     .container {
       background: white;
       padding: 35px;
       border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       width: 90%;
       max-width: 400px;
       text-align: center;
-      transition: all 0.4s ease;
     }
-
-    h2 {
-      margin-bottom: 15px;
-      color: #333;
-    }
-
-    label {
-      display: block;
-      margin-top: 10px;
-      text-align: left;
-      font-weight: bold;
-      color: #444;
-    }
-
-    input {
+    input, select {
       width: 100%;
       padding: 10px;
       margin-top: 6px;
@@ -52,7 +35,6 @@
       border: 1px solid #ccc;
       font-size: 14px;
     }
-
     button {
       width: 100%;
       margin-top: 15px;
@@ -63,30 +45,12 @@
       font-size: 15px;
       border-radius: 6px;
       cursor: pointer;
-      transition: background 0.3s;
     }
-
-    button:hover {
-      background: #1e6394;
-    }
-
-    #toggleMode {
-      background: #27ae60;
-      margin-top: 8px;
-    }
-
-    select {
-      margin-top: 10px;
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid #aaa;
-    }
-
-    #msg {
-      margin-top: 15px;
-      font-weight: bold;
-      color: green;
-    }
+    button:hover { background: #1e6394; }
+    #toggleMode { background: #27ae60; margin-top: 8px; }
+    #voiceLoginBtn { background: #6c5ce7; }
+    #officerCodeBox { display: none; }
+    #msg { margin-top: 15px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -101,6 +65,17 @@
     </select>
 
     <form id="loginForm">
+      <label for="role">Select Role:</label>
+      <select id="role" onchange="toggleOfficerCode()">
+        <option value="villager">👩‍🌾 Villager</option>
+        <option value="officer">🏢 Panchayat Officer</option>
+      </select>
+
+      <div id="officerCodeBox">
+        <label for="officerCode">Officer Access Code:</label>
+        <input type="password" id="officerCode" placeholder="Enter secret code (NG12345)" />
+      </div>
+
       <label for="username" id="usernameLabel">Username</label>
       <input type="text" id="username" required />
 
@@ -109,6 +84,7 @@
 
       <button type="submit" id="submitBtn">Login</button>
       <button type="button" id="toggleMode">Switch to Signup</button>
+      <button type="button" id="voiceLoginBtn">🎤 Voice Login</button>
       <p id="msg"></p>
     </form>
   </div>
@@ -125,8 +101,11 @@
         toggleToSignup: "Switch to Signup",
         toggleToLogin: "Switch to Login",
         langLabel: "Choose Language:",
+        roleLabel: "Select Role:",
         successLogin: "✅ Login successful!",
         successSignup: "✅ Signup successful!",
+        invalidOfficerCode: "❌ Invalid Officer Code!",
+        fillAll: "⚠️ Please fill all fields.",
         error: "❌ Invalid credentials!",
       },
       te: {
@@ -139,8 +118,11 @@
         toggleToSignup: "నమోదుకు మారండి",
         toggleToLogin: "లాగిన్‌కు మారండి",
         langLabel: "భాషను ఎంచుకోండి:",
+        roleLabel: "పాత్రను ఎంచుకోండి:",
         successLogin: "✅ లాగిన్ విజయవంతమైంది!",
         successSignup: "✅ నమోదు విజయవంతమైంది!",
+        invalidOfficerCode: "❌ తప్పు అధికార కోడ్!",
+        fillAll: "⚠️ అన్ని వివరాలు పూరించండి.",
         error: "❌ తప్పు వివరాలు!",
       },
       hi: {
@@ -153,8 +135,11 @@
         toggleToSignup: "साइन अप पर स्विच करें",
         toggleToLogin: "लॉगिन पर स्विच करें",
         langLabel: "भाषा चुनें:",
+        roleLabel: "भूमिका चुनें:",
         successLogin: "✅ लॉगिन सफल!",
         successSignup: "✅ साइन अप सफल!",
+        invalidOfficerCode: "❌ गलत अधिकारी कोड!",
+        fillAll: "⚠️ सभी फ़ील्ड भरें।",
         error: "❌ गलत विवरण!",
       },
     };
@@ -170,7 +155,13 @@
       document.getElementById("submitBtn").textContent = isSignup ? t.signupBtn : t.loginBtn;
       document.getElementById("toggleMode").textContent = isSignup ? t.toggleToLogin : t.toggleToSignup;
       document.getElementById("langLabel").textContent = t.langLabel;
+      document.querySelector("label[for='role']").textContent = t.roleLabel;
       localStorage.setItem("lang", lang);
+    }
+
+    function toggleOfficerCode() {
+      const role = document.getElementById("role").value;
+      document.getElementById("officerCodeBox").style.display = role === "officer" ? "block" : "none";
     }
 
     function toggleMode() {
@@ -186,11 +177,19 @@
       const t = translations[lang];
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value.trim();
-      const role = new URLSearchParams(window.location.search).get("role") || "villager";
+      const role = document.getElementById("role").value;
+      const officerCode = document.getElementById("officerCode").value.trim();
       const msg = document.getElementById("msg");
 
       if (!username || !password) {
-        msg.textContent = "⚠️ Please fill all fields.";
+        msg.textContent = t.fillAll;
+        msg.style.color = "red";
+        return;
+      }
+
+      // ✅ Officer code validation
+      if (role === "officer" && officerCode !== "NG12345") {
+        msg.textContent = t.invalidOfficerCode;
         msg.style.color = "red";
         return;
       }
@@ -209,7 +208,9 @@
           msg.style.color = "green";
           msg.textContent = isSignup ? t.successSignup : t.successLogin;
           localStorage.setItem("user", username);
-          localStorage.setItem("loginMethod", "normal"); // ✅ added
+          localStorage.setItem("role", role);
+          localStorage.removeItem("voiceUser");
+          localStorage.removeItem("loginMethod");
           setTimeout(() => {
             if (role === "villager") window.location.href = "villager.html";
             else window.location.href = "admin.html";
@@ -218,7 +219,7 @@
           msg.style.color = "red";
           msg.textContent = data.message || t.error;
         }
-      } catch (err) {
+      } catch {
         msg.style.color = "red";
         msg.textContent = "⚠️ Server not responding.";
       }
@@ -228,9 +229,15 @@
       const savedLang = localStorage.getItem("lang") || "en";
       document.getElementById("lang").value = savedLang;
       setLanguage();
+      toggleOfficerCode();
 
       document.getElementById("loginForm").addEventListener("submit", handleAuth);
       document.getElementById("toggleMode").addEventListener("click", toggleMode);
+
+      // 🎤 Voice login redirect
+      document.getElementById("voiceLoginBtn").addEventListener("click", () => {
+        window.location.href = "voice-login.html";
+      });
     });
   </script>
 </body>

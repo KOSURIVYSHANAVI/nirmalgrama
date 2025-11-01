@@ -68,5 +68,60 @@
     "username": "విజయలక్ష్మి",
     "password": "voiceuser",
     "role": "villager"
+  },
+  {
+    "username": "kosuri vyshanavi",
+    "password": "vyshu",
+    "role": "villager"
+  },
+  {
+    "username": "రమ్య",
+    "password": "voiceuser",
+    "role": "villager"
+  },
+  {
+    "username": "ra",
+    "password": "ra",
+    "role": "villager"
+  },
+  {
+    "username": "uday",
+    "password": "uday",
+    "role": "villager"
+  },
+  {
+    "username": "రవి",
+    "password": "voiceuser",
+    "role": "villager"
+  },
+  {
+    "username": "రెజీనా",
+    "password": "voiceuser",
+    "role": "villager"
+  },
+  {
+    "username": "మూల్య",
+    "password": "voiceuser",
+    "role": "villager"
+  },
+  {
+    "username": "లాస్య",
+    "password": "voiceuser",
+    "role": "villager"
+  },
+  {
+    "username": "lucky",
+    "password": "lucky",
+    "role": "villager"
+  },
+  {
+    "username": "MANI",
+    "password": "MANI",
+    "role": "officer"
+  },
+  {
+    "username": "ఉజ్వల",
+    "password": "voiceuser",
+    "role": "villager"
   }
 ]

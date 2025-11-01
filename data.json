@@ -4,23 +4,55 @@
     "name": "వైష్ణవి",
     "type": "Water Problem",
     "desc": "నీళ్లు పచ్చ రంగులో ఉన్నాయి",
-    "status": "Pending",
+    "status": "Completed",
     "createdAt": "2025-11-01T13:11:48.802Z"
   },
   {
-    "id": 3,
-    "name": "ram",
-    "type": "Drainage Issue",
-    "desc": "no proper drainage",
+    "id": 2,
+    "name": "రమ్య",
+    "type": "Water Problem",
+    "desc": "రోజు నీళ్లు రావడం లేదు",
     "status": "Pending",
-    "createdAt": "2025-11-01T13:13:38.975Z"
+    "createdAt": "2025-11-01T18:06:39.479Z"
   },
   {
     "id": 3,
-    "name": "nani",
-    "type": "Road Damage",
-    "desc": "రోడ్డు సరిగ్గా లేదు",
+    "name": "Uday",
+    "type": "Street Light Issue",
+    "desc": "street lights are not working properly",
     "status": "Pending",
-    "createdAt": "2025-11-01T13:21:22.324Z"
+    "createdAt": "2025-11-01T18:33:57.628Z"
+  },
+  {
+    "id": 4,
+    "name": "లాస్య",
+    "type": "Street Light Issue",
+    "desc": "వీధిలో లైట్లు పనిచేయడం లేదు",
+    "status": "Pending",
+    "createdAt": "2025-11-01T18:44:05.374Z"
+  },
+  {
+    "id": 5,
+    "name": "lucky",
+    "type": "Road Damage",
+    "desc": "no proper roads accidents are increasing",
+    "status": "Pending",
+    "createdAt": "2025-11-01T18:45:09.000Z"
+  },
+  {
+    "id": 6,
+    "name": "ఉజ్వల",
+    "type": "Drainage Issue",
+    "desc": "డ్రైనేజ్ వల్ల దోమలు వస్తున్నాయి",
+    "status": "Pending",
+    "createdAt": "2025-11-01T18:48:56.703Z"
+  },
+  {
+    "id": 7,
+    "name": "uday",
+    "type": "Water Problem",
+    "desc": "water coming rarely",
+    "status": "Pending",
+    "createdAt": "2025-11-01T18:49:57.628Z"
   }
 ]

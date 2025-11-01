@@ -1,98 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NirmalGrama - Smart Village Portal</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #74ebd5, #9face6);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .container {
-      text-align: center;
-      background: #ffffff;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      width: 90%;
-      max-width: 500px;
-    }
-    h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-      color: #2c3e50;
-    }
-    p {
-      color: #555;
-      font-size: 16px;
-      margin-bottom: 25px;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.2s, background 0.3s;
-      color: white;
-    }
-    .btn:hover {
-      transform: scale(1.03);
-    }
-    .villager { background: #27ae60; }
-    .officer { background: #2980b9; }
-    .voice { background: #f39c12; }
-    footer {
-      margin-top: 15px;
-      font-size: 13px;
-      color: #555;
-    }
-    .emoji {
-      font-size: 22px;
-      margin-right: 6px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NirmalGrama</title>
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #81ecec, #74b9ff);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  height:100vh;text-align:center;margin:0;
+}
+button{
+  background:#0984e3;color:white;border:none;padding:12px 24px;
+  border-radius:8px;margin:10px;cursor:pointer;font-size:16px;
+}
+button:hover{background:#0866b3;}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>🌿 NirmalGrama</h1>
-    <p>Smart Village Complaint & Service Management System</p>
-
-    <button class="btn villager" onclick="goToVillager()">
-      👩‍🌾 Villager Login
-    </button>
-
-    <button class="btn officer" onclick="goToOfficer()">
-      🧑‍💼 Panchayat Officer Login
-    </button>
-
-    <button class="btn voice" onclick="goToVoice()">
-      🎙️ Voice-Based Login (For Uneducated)
-    </button>
-
-    <footer>Made with ❤️ for Smart Rural Development</footer>
-  </div>
-
-  <script>
-    function goToVillager() {
-      window.location.href = "login.html?role=villager";
-    }
-    function goToOfficer() {
-      window.location.href = "login.html?role=officer";
-    }
-    function goToVoice() {
-      window.location.href = "voice-login.html";
-    }
-  </script>
+<h1>🏡 Welcome to NirmalGrama</h1>
+<p>Select how you want to continue:</p>
+<button onclick="window.location.href='login.html'">🔑 Login</button>
+<button onclick="window.location.href='signup.html'">📝 Signup</button>
+<button onclick="window.location.href='voice-login.html'">🎙️ Voice Login (Villager)</button>
 </body>
 </html>

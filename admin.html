@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NirmalGrama – Admin Dashboard</title>
+  <title>NirmalGrama – Officer Dashboard</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
     body {
       font-family: "Poppins", sans-serif;
       background: linear-gradient(135deg, #dff9fb, #c7ecee);
@@ -15,6 +16,12 @@
     h2 {
       text-align: center;
       color: #2c3e50;
+    }
+    #welcome {
+      text-align: center;
+      font-weight: 600;
+      color: #0984e3;
+      margin-top: 5px;
     }
     table {
       width: 100%;
@@ -58,21 +65,28 @@
     .delete:hover {
       background: #c0392b;
     }
-    #refresh {
-      display: block;
-      margin: 15px auto;
+    #refresh, #logout {
+      display: inline-block;
+      margin: 15px 10px;
       background: #2980b9;
       padding: 10px 20px;
       border-radius: 8px;
     }
-    #refresh:hover {
-      background: #21618c;
+    #logout {
+      background: #d63031;
     }
+    #refresh:hover { background: #21618c; }
+    #logout:hover { background: #c0392b; }
   </style>
 </head>
 <body>
-  <h2>📋 Panchayat Officer Dashboard</h2>
-  <button id="refresh">🔄 Refresh Complaints</button>
+  <h2>🏢 Panchayat Officer Dashboard</h2>
+  <p id="welcome"></p>
+  <div style="text-align:center;">
+    <button id="refresh">🔄 Refresh Complaints</button>
+    <button id="logout">🚪 Logout</button>
+  </div>
+
   <table id="complaintsTable">
     <thead>
       <tr>
@@ -89,18 +103,35 @@
   </table>
 
   <script>
+    // ✅ Restrict Access to Officers only
+    window.onload = () => {
+      const role = localStorage.getItem("role");
+      const user = localStorage.getItem("user");
+
+      if (role !== "officer") {
+        alert("🚫 Access Denied! Only Panchayat Officers can access this page.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      document.getElementById("welcome").textContent = `Welcome, Officer ${user}`;
+      loadComplaints();
+    };
+
     const tableBody = document.querySelector("#complaintsTable tbody");
     const refreshBtn = document.getElementById("refresh");
+    const logoutBtn = document.getElementById("logout");
 
-    // Fetch and display all complaints
+    // 🧾 Fetch complaints
     async function loadComplaints() {
-      tableBody.innerHTML = "<tr><td colspan='7'>Loading...</td></tr>";
+      tableBody.innerHTML = "<tr><td colspan='7'>⏳ Loading complaints...</td></tr>";
 
       try {
         const res = await fetch("/complaints");
         const data = await res.json();
-        if (data.length === 0) {
-          tableBody.innerHTML = "<tr><td colspan='7'>No complaints found</td></tr>";
+
+        if (!Array.isArray(data) || data.length === 0) {
+          tableBody.innerHTML = "<tr><td colspan='7'>No complaints found ✅</td></tr>";
           return;
         }
 
@@ -127,7 +158,7 @@
       }
     }
 
-    // Mark complaint as completed
+    // ✅ Mark complaint as done
     async function markDone(id) {
       try {
         const res = await fetch(`/complaint/${id}`, { method: "PUT" });
@@ -137,12 +168,12 @@
         } else {
           alert("⚠️ Failed to update complaint.");
         }
-      } catch (err) {
+      } catch {
         alert("⚠️ Server error while updating.");
       }
     }
 
-    // Delete complaint
+    // 🗑️ Delete complaint
     async function deleteComplaint(id) {
       if (!confirm("Are you sure you want to delete this complaint?")) return;
 
@@ -154,16 +185,20 @@
         } else {
           alert("⚠️ Failed to delete complaint.");
         }
-      } catch (err) {
+      } catch {
         alert("⚠️ Server error while deleting.");
       }
     }
 
-    // Refresh button click
+    // 🔁 Refresh
     refreshBtn.onclick = loadComplaints;
 
-    // Load on page start
-    loadComplaints();
+    // 🚪 Logout
+    logoutBtn.onclick = () => {
+      localStorage.clear();
+      alert("You have been logged out.");
+      window.location.href = "login.html";
+    };
   </script>
 </body>
 </html>

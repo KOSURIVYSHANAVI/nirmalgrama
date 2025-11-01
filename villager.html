@@ -15,32 +15,54 @@
     }
     h2 { color: #2c3e50; margin-bottom: 20px; }
     form {
-      background: white; padding: 25px; border-radius: 15px;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      max-width: 420px; margin: auto;
+      max-width: 420px;
+      margin: auto;
     }
     input, textarea {
-      width: 100%; margin: 8px 0; padding: 10px;
-      border: 1px solid #ccc; border-radius: 6px; font-size: 14px;
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
     }
     button {
-      background: #27ae60; color: white; border: none;
-      padding: 10px 20px; border-radius: 8px;
-      cursor: pointer; font-size: 15px; margin-top: 10px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 10px;
     }
     button:hover { background: #1e8c4f; }
-    .icon-grid { display: flex; justify-content: space-around; flex-wrap: wrap; margin: 10px 0; }
+    .icon-grid {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
     .icon-box {
-      width: 90px; padding: 10px; cursor: pointer;
-      border-radius: 10px; transition: all 0.2s ease;
+      width: 90px;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: all 0.2s ease;
       background: #f0f0f0;
     }
     .icon-box:hover { background: #dff9fb; transform: scale(1.05); }
     .icon-box img { width: 50px; height: 50px; }
     #msg { margin-top: 10px; font-weight: bold; }
     select {
-      margin-bottom: 15px; padding: 6px;
-      border-radius: 8px; border: 1px solid #ccc;
+      margin-bottom: 15px;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
@@ -89,38 +111,27 @@
   </form>
 
   <script>
+    // === Translations ===
     const translations = {
       en: {
         title: "Villager Complaint Portal",
         typeLabel: "Select Problem Type:",
-        water: "Water",
-        drain: "Drainage",
-        road: "Road",
-        light: "Light",
-        desc: "Describe Issue:",
-        submit: "Submit Complaint",
+        water: "Water", drain: "Drainage", road: "Road", light: "Light",
+        desc: "Describe Issue:", submit: "Submit Complaint",
         success: "✅ Complaint submitted successfully!"
       },
       te: {
         title: "గ్రామస్థుల ఫిర్యాదు పేజీ",
         typeLabel: "సమస్య రకాన్ని ఎంచుకోండి:",
-        water: "నీటి",
-        drain: "డ్రైనేజ్",
-        road: "రోడ్డు",
-        light: "లైట్",
-        desc: "సమస్య వివరించండి:",
-        submit: "ఫిర్యాదు పంపండి",
+        water: "నీటి", drain: "డ్రైనేజ్", road: "రోడ్డు", light: "లైట్",
+        desc: "సమస్య వివరించండి:", submit: "ఫిర్యాదు పంపండి",
         success: "✅ ఫిర్యాదు విజయవంతంగా పంపబడింది!"
       },
       hi: {
         title: "ग्रामवासी शिकायत पोर्टल",
         typeLabel: "समस्या का प्रकार चुनें:",
-        water: "पानी",
-        drain: "नाली",
-        road: "सड़क",
-        light: "लाइट",
-        desc: "समस्या का विवरण दें:",
-        submit: "शिकायत दर्ज करें",
+        water: "पानी", drain: "नाली", road: "सड़क", light: "लाइट",
+        desc: "समस्या का विवरण दें:", submit: "शिकायत दर्ज करें",
         success: "✅ शिकायत सफलतापूर्वक भेजी गई!"
       }
     };
@@ -146,19 +157,27 @@
       document.getElementById("submitBtn").textContent = t.submit;
     }
 
-    // ✅ Auto-fill name only for voice login
+    // ✅ Access Control
     window.onload = () => {
+      const role = localStorage.getItem("role");
       const voiceUser = localStorage.getItem("voiceUser");
       const loginMethod = localStorage.getItem("loginMethod");
+
+      if (role !== "villager") {
+        alert("🚫 Access Denied! Only villagers can use this page.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Auto-fill name only if voice login was used
       if (loginMethod === "voice" && voiceUser) {
         document.getElementById("name").value = voiceUser;
-      } else {
-        document.getElementById("name").value = "";
       }
+
       applyTranslations();
     };
 
-    // === Voice input for Name ===
+    // 🎤 Voice input for Name
     document.getElementById("nameMic").onclick = () => {
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.lang = lang === "te" ? "te-IN" : lang === "hi" ? "hi-IN" : "en-IN";
@@ -168,7 +187,7 @@
       };
     };
 
-    // === Voice input for Description ===
+    // 🎤 Voice input for Description
     document.getElementById("mic").onclick = () => {
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.lang = lang === "te" ? "te-IN" : lang === "hi" ? "hi-IN" : "en-IN";
@@ -178,11 +197,13 @@
       };
     };
 
+    // 🧩 Select Problem Type
     function selectType(type) {
       document.getElementById("type").value = type;
       alert(`Selected: ${type}`);
     }
 
+    // 📨 Submit Complaint
     document.getElementById("complaintForm").onsubmit = async (e) => {
       e.preventDefault();
       const data = {
@@ -197,11 +218,16 @@
         body: JSON.stringify(data),
       });
 
+      const msg = document.getElementById("msg");
+      const t = translations[lang];
+
       if (res.ok) {
-        const t = translations[lang];
-        document.getElementById("msg").textContent = t.success;
-        document.getElementById("msg").style.color = "green";
+        msg.textContent = t.success;
+        msg.style.color = "green";
         document.getElementById("complaintForm").reset();
+      } else {
+        msg.textContent = "⚠️ Failed to submit complaint.";
+        msg.style.color = "red";
       }
     };
   </script>

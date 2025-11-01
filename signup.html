@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NirmalGrama – Signup</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #a29bfe, #81ecec);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    h2 { color: #2c3e50; margin-bottom: 20px; }
+    input, select {
+      width: 100%; padding: 10px; margin: 8px 0;
+      border: 1px solid #ccc; border-radius: 6px;
+    }
+    button {
+      background: #6c5ce7; color: white; border: none;
+      padding: 10px 20px; border-radius: 8px; cursor: pointer;
+    }
+    button:hover { background: #5a4de1; }
+    #msg { margin-top: 10px; color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <form id="signupForm">
+    <h2>📝 Signup</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+
+    <select id="role">
+      <option value="villager">Villager</option>
+      <option value="officer">Panchayat Officer</option>
+    </select>
+
+    <input type="password" id="secret" placeholder="Officer Secret Code (only for officers)" style="display:none;">
+
+    <button type="submit">Signup</button>
+    <p id="msg"></p>
+  </form>
+
+  <script>
+    const roleSelect = document.getElementById("role");
+    const secretInput = document.getElementById("secret");
+
+    // 🧩 Show secret code field for officer only
+    roleSelect.addEventListener("change", () => {
+      secretInput.style.display = roleSelect.value === "officer" ? "block" : "none";
+    });
+
+    document.getElementById("signupForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const role = roleSelect.value;
+      const secret = secretInput.value;
+
+      const res = await fetch("/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, role, secret }),
+      });
+
+      const msg = document.getElementById("msg");
+      if (res.ok) {
+        msg.style.color = "green";
+        msg.textContent = "✅ Signup successful!";
+        setTimeout(() => (window.location.href = "login.html"), 1000);
+      } else {
+        const data = await res.json();
+        msg.textContent = "❌ " + (data.message || "Signup failed");
+      }
+    };
+  </script>
+</body>
+</html>
