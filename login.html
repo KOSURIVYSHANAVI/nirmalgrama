@@ -209,6 +209,7 @@
           msg.style.color = "green";
           msg.textContent = isSignup ? t.successSignup : t.successLogin;
           localStorage.setItem("user", username);
+          localStorage.setItem("loginMethod", "normal"); // ✅ added
           setTimeout(() => {
             if (role === "villager") window.location.href = "villager.html";
             else window.location.href = "admin.html";
