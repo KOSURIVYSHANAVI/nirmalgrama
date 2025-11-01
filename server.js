@@ -3,7 +3,6 @@ import fs from "fs";
 import path from "path";
 import cors from "cors";
 import { fileURLToPath } from "url";
-// ❌ Removed "open" import (not needed for Render)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,7 +10,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
+
+// ✅ FIX: Serve all static files (HTML, CSS, JS)
+app.use(express.static(__dirname, { extensions: ["html", "htm"] }));
 
 // === USERS ===
 const USERS_FILE = path.join(__dirname, "users.json");
@@ -118,11 +119,9 @@ app.delete("/complaint/:id", (req, res) => {
 });
 
 // === START SERVER ===
-// ⚡ Use Render's provided port (process.env.PORT)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  // For local development only:
   if (process.env.NODE_ENV !== "production") {
     console.log(`Open http://localhost:${PORT}/index.html`);
   }
