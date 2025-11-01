@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NirmalGrama - Login</title>
   <style>
     body {
@@ -87,10 +87,10 @@
 
     <form id="loginForm">
       <label for="username" id="usernameLabel">Username</label>
-      <input type="text" id="username" required />
+      <input type="text" id="username" required>
 
       <label for="password" id="passwordLabel">Password</label>
-      <input type="password" id="password" required />
+      <input type="password" id="password" required>
 
       <button type="submit" id="submitBtn">Login</button>
       <button type="button" id="toggleMode" onclick="toggleMode()">Switch to Signup</button>
@@ -168,35 +168,38 @@
       e.preventDefault();
       const lang = document.getElementById("lang").value;
       const t = translations[lang];
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
       const role = new URLSearchParams(window.location.search).get("role") || "villager";
       const msg = document.getElementById("msg");
 
+      if (!username || !password) {
+        msg.textContent = "⚠️ Please fill all fields.";
+        msg.style.color = "red";
+        return;
+      }
+
       const endpoint = isSignup ? "/signup" : "/login";
-      const body = JSON.stringify({ username, password, role });
 
       try {
         const res = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body
+          body: JSON.stringify({ username, password, role })
         });
+
         const data = await res.json();
         if (res.ok) {
           msg.style.color = "green";
           msg.textContent = isSignup ? t.successSignup : t.successLogin;
-
-          // ✅ Clear any previous voice login name when using normal login/signup
-          localStorage.removeItem("voiceUser");
-
+          localStorage.setItem("user", username);
           setTimeout(() => {
             if (role === "villager") window.location.href = "villager.html";
             else window.location.href = "admin.html";
           }, 1000);
         } else {
           msg.style.color = "red";
-          msg.textContent = t.error;
+          msg.textContent = data.message || t.error;
         }
       } catch (err) {
         msg.style.color = "red";
@@ -204,13 +207,12 @@
       }
     }
 
-    document.getElementById("loginForm").addEventListener("submit", handleAuth);
-
-    window.onload = () => {
+    document.addEventListener("DOMContentLoaded", () => {
       const savedLang = localStorage.getItem("lang") || "en";
       document.getElementById("lang").value = savedLang;
       setLanguage();
-    };
+      document.getElementById("loginForm").addEventListener("submit", handleAuth);
+    });
   </script>
 </body>
 </html>
