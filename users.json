@@ -123,5 +123,20 @@
     "username": "ఉజ్వల",
     "password": "voiceuser",
     "role": "villager"
+  },
+  {
+    "username": "jann",
+    "password": "jann",
+    "role": "villager"
+  },
+  {
+    "username": "కారుణ్య",
+    "password": "voiceuser",
+    "role": "villager"
+  },
+  {
+    "username": "jann",
+    "password": "jann",
+    "role": "officer"
   }
 ]

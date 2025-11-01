@@ -8,21 +8,35 @@
 body {
   font-family: "Poppins", sans-serif;
   background: linear-gradient(135deg, #81ecec, #74b9ff);
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  height:100vh;text-align:center;margin:0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  margin: 0;
 }
-button{
-  background:#0984e3;color:white;border:none;padding:12px 24px;
-  border-radius:8px;margin:10px;cursor:pointer;font-size:16px;
+button {
+  background: #0984e3;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
 }
-button:hover{background:#0866b3;}
+button:hover {
+  background: #0866b3;
+}
 </style>
 </head>
 <body>
-<h1>🏡 Welcome to NirmalGrama</h1>
-<p>Select how you want to continue:</p>
-<button onclick="window.location.href='login.html'">🔑 Login</button>
-<button onclick="window.location.href='signup.html'">📝 Signup</button>
-<button onclick="window.location.href='voice-login.html'">🎙️ Voice Login (Villager)</button>
+  <h1>🏡 Welcome to NirmalGrama</h1>
+  <p>Select how you want to continue:</p>
+  
+  <button onclick="window.location.href='login.html'">🔑 Login / Signup</button>
+  <button onclick="window.location.href='voice-login.html'">🎙️ Voice Login (Villager)</button>
 </body>
 </html>
