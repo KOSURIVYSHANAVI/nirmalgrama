@@ -1,0 +1,17 @@
+{
+  "name": "test-nirmalgrama",
+  "version": "1.0.0",
+  "description": "NirmalGrama community complaint portal prototype",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Vyshnavi Kosuri",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

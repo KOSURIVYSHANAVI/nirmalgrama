@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NirmalGrama - Login</title>
+  <style>
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      text-align: left;
+      font-weight: bold;
+      color: #444;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 10px;
+      border: none;
+      background: #2980b9;
+      color: white;
+      font-size: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1e6394;
+    }
+    #toggleMode {
+      background: #27ae60;
+      margin-top: 8px;
+    }
+    select {
+      margin-top: 10px;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+    #msg {
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2 id="title">Login</h2>
+
+    <label for="lang" id="langLabel">Choose Language:</label>
+    <select id="lang" onchange="setLanguage()">
+      <option value="en">English</option>
+      <option value="te">తెలుగు</option>
+      <option value="hi">हिन्दी</option>
+    </select>
+
+    <form id="loginForm">
+      <label for="username" id="usernameLabel">Username</label>
+      <input type="text" id="username" required />
+
+      <label for="password" id="passwordLabel">Password</label>
+      <input type="password" id="password" required />
+
+      <button type="submit" id="submitBtn">Login</button>
+      <button type="button" id="toggleMode" onclick="toggleMode()">Switch to Signup</button>
+      <p id="msg"></p>
+    </form>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        loginTitle: "Login",
+        signupTitle: "Signup",
+        usernameLabel: "Username",
+        passwordLabel: "Password",
+        loginBtn: "Login",
+        signupBtn: "Signup",
+        toggleToSignup: "Switch to Signup",
+        toggleToLogin: "Switch to Login",
+        langLabel: "Choose Language:",
+        successLogin: "✅ Login successful!",
+        successSignup: "✅ Signup successful!",
+        error: "❌ Invalid credentials!"
+      },
+      te: {
+        loginTitle: "లాగిన్",
+        signupTitle: "నమోదు",
+        usernameLabel: "వినియోగదారు పేరు",
+        passwordLabel: "పాస్‌వర్డ్",
+        loginBtn: "లాగిన్",
+        signupBtn: "నమోదు చేయండి",
+        toggleToSignup: "నమోదుకు మారండి",
+        toggleToLogin: "లాగిన్‌కు మారండి",
+        langLabel: "భాషను ఎంచుకోండి:",
+        successLogin: "✅ లాగిన్ విజయవంతమైంది!",
+        successSignup: "✅ నమోదు విజయవంతమైంది!",
+        error: "❌ తప్పు వివరాలు!"
+      },
+      hi: {
+        loginTitle: "लॉगिन",
+        signupTitle: "साइन अप",
+        usernameLabel: "उपयोगकर्ता नाम",
+        passwordLabel: "पासवर्ड",
+        loginBtn: "लॉगिन",
+        signupBtn: "साइन अप करें",
+        toggleToSignup: "साइन अप पर स्विच करें",
+        toggleToLogin: "लॉगिन पर स्विच करें",
+        langLabel: "भाषा चुनें:",
+        successLogin: "✅ लॉगिन सफल!",
+        successSignup: "✅ साइन अप सफल!",
+        error: "❌ गलत विवरण!"
+      }
+    };
+
+    let isSignup = false;
+
+    function setLanguage() {
+      const lang = document.getElementById("lang").value;
+      const t = translations[lang];
+      document.getElementById("title").textContent = isSignup ? t.signupTitle : t.loginTitle;
+      document.getElementById("usernameLabel").textContent = t.usernameLabel;
+      document.getElementById("passwordLabel").textContent = t.passwordLabel;
+      document.getElementById("submitBtn").textContent = isSignup ? t.signupBtn : t.loginBtn;
+      document.getElementById("toggleMode").textContent = isSignup ? t.toggleToLogin : t.toggleToSignup;
+      document.getElementById("langLabel").textContent = t.langLabel;
+      localStorage.setItem("lang", lang);
+    }
+
+    function toggleMode() {
+      isSignup = !isSignup;
+      setLanguage();
+      document.getElementById("msg").textContent = "";
+    }
+
+    async function handleAuth(e) {
+      e.preventDefault();
+      const lang = document.getElementById("lang").value;
+      const t = translations[lang];
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const role = new URLSearchParams(window.location.search).get("role") || "villager";
+      const msg = document.getElementById("msg");
+
+      const endpoint = isSignup ? "/signup" : "/login";
+      const body = JSON.stringify({ username, password, role });
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body
+        });
+        const data = await res.json();
+        if (res.ok) {
+          msg.style.color = "green";
+          msg.textContent = isSignup ? t.successSignup : t.successLogin;
+
+          // ✅ Clear any previous voice login name when using normal login/signup
+          localStorage.removeItem("voiceUser");
+
+          setTimeout(() => {
+            if (role === "villager") window.location.href = "villager.html";
+            else window.location.href = "admin.html";
+          }, 1000);
+        } else {
+          msg.style.color = "red";
+          msg.textContent = t.error;
+        }
+      } catch (err) {
+        msg.style.color = "red";
+        msg.textContent = "⚠️ Server not responding.";
+      }
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", handleAuth);
+
+    window.onload = () => {
+      const savedLang = localStorage.getItem("lang") || "en";
+      document.getElementById("lang").value = savedLang;
+      setLanguage();
+    };
+  </script>
+</body>
+</html>

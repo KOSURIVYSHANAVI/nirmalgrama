@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NirmalGrama – Villager Portal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #dff9fb, #c7ecee);
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    form {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      max-width: 420px;
+      margin: auto;
+    }
+    input, textarea {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 10px;
+    }
+    button:hover { background: #1e8c4f; }
+    .icon-grid {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
+    .icon-box {
+      width: 90px;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      background: #f0f0f0;
+    }
+    .icon-box:hover {
+      background: #dff9fb;
+      transform: scale(1.05);
+    }
+    .icon-box img {
+      width: 50px;
+      height: 50px;
+    }
+    #msg {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    select {
+      margin-bottom: 15px;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h2 id="pageTitle">🧑‍🌾 Villager Complaint Portal</h2>
+
+  <select id="langSelect" onchange="setLanguage()">
+    <option value="en">🌐 English</option>
+    <option value="te">🇮🇳 తెలుగు</option>
+    <option value="hi">🇮🇳 हिन्दी</option>
+  </select>
+
+  <form id="complaintForm">
+    <label id="nameLabel">Your Name:</label>
+    <div style="display:flex;align-items:center;justify-content:center;">
+      <input type="text" id="name" placeholder="Your Name" required />
+      <button type="button" id="nameMic" style="margin-left:5px;background:#00b894;color:white;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;">🎤</button>
+    </div>
+
+    <label id="typeLabel">Select Problem Type:</label>
+    <div class="icon-grid">
+      <div class="icon-box" onclick="selectType('Water Problem')">
+        <img src="https://cdn-icons-png.flaticon.com/512/1684/1684375.png" /><br id="lblWater">Water
+      </div>
+      <div class="icon-box" onclick="selectType('Drainage Issue')">
+        <img src="https://cdn-icons-png.flaticon.com/512/2784/2784463.png" /><br id="lblDrain">Drainage
+      </div>
+      <div class="icon-box" onclick="selectType('Road Damage')">
+        <img src="https://cdn-icons-png.flaticon.com/512/3208/3208753.png" /><br id="lblRoad">Road
+      </div>
+      <div class="icon-box" onclick="selectType('Street Light Issue')">
+        <img src="https://cdn-icons-png.flaticon.com/512/432/432258.png" /><br id="lblLight">Light
+      </div>
+    </div>
+
+    <input type="hidden" id="type" required />
+
+    <label id="descLabel">Describe Issue:</label>
+    <div style="display:flex;align-items:center;justify-content:center;">
+      <textarea id="desc" rows="4" placeholder="Describe your issue..." required></textarea>
+      <button type="button" id="mic" style="margin-left:5px;background:#2980b9;color:white;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;">🎤</button>
+    </div>
+
+    <button type="submit" id="submitBtn">Submit Complaint</button>
+    <p id="msg"></p>
+  </form>
+
+  <script>
+    const translations = {
+      en: {
+        title: "Villager Complaint Portal",
+        typeLabel: "Select Problem Type:",
+        water: "Water",
+        drain: "Drainage",
+        road: "Road",
+        light: "Light",
+        desc: "Describe Issue:",
+        submit: "Submit Complaint",
+        success: "✅ Complaint submitted successfully!"
+      },
+      te: {
+        title: "గ్రామస్థుల ఫిర్యాదు పేజీ",
+        typeLabel: "సమస్య రకాన్ని ఎంచుకోండి:",
+        water: "నీటి",
+        drain: "డ్రైనేజ్",
+        road: "రోడ్డు",
+        light: "లైట్",
+        desc: "సమస్య వివరించండి:",
+        submit: "ఫిర్యాదు పంపండి",
+        success: "✅ ఫిర్యాదు విజయవంతంగా పంపబడింది!"
+      },
+      hi: {
+        title: "ग्रामवासी शिकायत पोर्टल",
+        typeLabel: "समस्या का प्रकार चुनें:",
+        water: "पानी",
+        drain: "नाली",
+        road: "सड़क",
+        light: "लाइट",
+        desc: "समस्या का विवरण दें:",
+        submit: "शिकायत दर्ज करें",
+        success: "✅ शिकायत सफलतापूर्वक भेजी गई!"
+      }
+    };
+
+    let lang = localStorage.getItem("lang") || "en";
+    document.getElementById("langSelect").value = lang;
+
+    function setLanguage() {
+      lang = document.getElementById("langSelect").value;
+      localStorage.setItem("lang", lang);
+      applyTranslations();
+    }
+
+    function applyTranslations() {
+      const t = translations[lang];
+      document.getElementById("pageTitle").textContent = "🧑‍🌾 " + t.title;
+      document.getElementById("typeLabel").textContent = t.typeLabel;
+      document.getElementById("lblWater").textContent = t.water;
+      document.getElementById("lblDrain").textContent = t.drain;
+      document.getElementById("lblRoad").textContent = t.road;
+      document.getElementById("lblLight").textContent = t.light;
+      document.getElementById("descLabel").textContent = t.desc;
+      document.getElementById("submitBtn").textContent = t.submit;
+    }
+
+    // === Auto-fill name from voice login ===
+    window.onload = () => {
+      const storedName = localStorage.getItem("voiceUser");
+      if (storedName) {
+        document.getElementById("name").value = storedName;
+      }
+      applyTranslations();
+    };
+
+    // === Voice input for Name ===
+    document.getElementById("nameMic").onclick = () => {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = lang === "te" ? "te-IN" : lang === "hi" ? "hi-IN" : "en-IN";
+      recognition.start();
+      recognition.onresult = (event) => {
+        document.getElementById("name").value = event.results[0][0].transcript;
+      };
+    };
+
+    // === Voice input for Description ===
+    document.getElementById("mic").onclick = () => {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = lang === "te" ? "te-IN" : lang === "hi" ? "hi-IN" : "en-IN";
+      recognition.start();
+      recognition.onresult = (event) => {
+        document.getElementById("desc").value = event.results[0][0].transcript;
+      };
+    };
+
+    // === Select Problem Type ===
+    function selectType(type) {
+      document.getElementById("type").value = type;
+      alert(`Selected: ${type}`);
+    }
+
+    // === Submit Complaint ===
+    document.getElementById("complaintForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById("name").value,
+        type: document.getElementById("type").value,
+        desc: document.getElementById("desc").value
+      };
+
+      const res = await fetch("/complaint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        const t = translations[lang];
+        document.getElementById("msg").textContent = t.success;
+        document.getElementById("msg").style.color = "green";
+        document.getElementById("complaintForm").reset();
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+[
+  {
+    "id": 2,
+    "name": "వైష్ణవి",
+    "type": "Water Problem",
+    "desc": "నీళ్లు పచ్చ రంగులో ఉన్నాయి",
+    "status": "Pending",
+    "createdAt": "2025-11-01T13:11:48.802Z"
+  },
+  {
+    "id": 3,
+    "name": "ram",
+    "type": "Drainage Issue",
+    "desc": "no proper drainage",
+    "status": "Pending",
+    "createdAt": "2025-11-01T13:13:38.975Z"
+  },
+  {
+    "id": 3,
+    "name": "nani",
+    "type": "Road Damage",
+    "desc": "రోడ్డు సరిగ్గా లేదు",
+    "status": "Pending",
+    "createdAt": "2025-11-01T13:21:22.324Z"
+  }
+]

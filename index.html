@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NirmalGrama – Welcome</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #74b9ff, #a29bfe);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #2c3e50;
+      text-align: center;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    .role-btn {
+      background: white;
+      border: none;
+      padding: 25px 35px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      margin: 15px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.2s ease;
+    }
+    .role-btn:hover {
+      transform: scale(1.08);
+      background: #dfe6e9;
+    }
+    .icon {
+      font-size: 32px;
+    }
+    #voiceOption {
+      margin-top: 30px;
+      background: linear-gradient(135deg, #00b894, #00cec9);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌿 Welcome to <b>NirmalGrama</b></h1>
+  <p>Please choose your role to continue:</p>
+
+  <button class="role-btn" onclick="location.href='login.html?role=villager'">
+    <span class="icon">👩‍🌾</span> Villager
+  </button>
+
+  <button class="role-btn" onclick="location.href='login.html?role=officer'">
+    <span class="icon">🏛️</span> Panchayat Officer
+  </button>
+
+  <button id="voiceOption" class="role-btn" onclick="location.href='voice-login.html'">
+    <span class="icon">🎤</span> Voice-Based Login
+  </button>
+</body>
+</html>

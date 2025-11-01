@@ -1,0 +1,72 @@
+[
+  {
+    "username": "vyshu",
+    "password": "vyshu",
+    "role": "villager"
+  },
+  {
+    "username": "b",
+    "password": "b",
+    "role": "villager"
+  },
+  {
+    "username": "vyshu",
+    "password": "vyshu",
+    "role": "officer"
+  },
+  {
+    "username": "resh",
+    "password": "resh",
+    "role": "villager"
+  },
+  {
+    "username": "resh",
+    "password": "resh",
+    "role": "officer"
+  },
+  {
+    "username": "వైష్ణవి",
+    "password": "voiceuser",
+    "role": "villager"
+  },
+  {
+    "username": "రేష్మ",
+    "password": "n",
+    "role": "villager"
+  },
+  {
+    "username": "bhuvana",
+    "password": "bhuvana",
+    "role": "villager"
+  },
+  {
+    "username": "సోనీ",
+    "password": "123",
+    "role": "villager"
+  },
+  {
+    "username": "రామ్",
+    "password": "ram",
+    "role": "villager"
+  },
+  {
+    "username": "ram",
+    "password": "ram",
+    "role": "villager"
+  },
+  {
+    "username": "ram",
+    "password": "ram",
+    "role": "officer"
+  },
+  {
+    "username": "భువన",
+    "password": "voiceuser",
+    "role": "villager"
+  },
+  {
+    "username": "విజయలక్ష్మి",
+    "password": "voiceuser",
+    "role": "villager"
+  }
+]
