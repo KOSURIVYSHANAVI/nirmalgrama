@@ -13,7 +13,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: background 0.5s ease;
     }
+
+    body.signup-mode {
+      background: linear-gradient(135deg, #a8e063, #56ab2f);
+    }
+
     .container {
       background: white;
       padding: 35px;
@@ -22,11 +28,14 @@
       width: 90%;
       max-width: 400px;
       text-align: center;
+      transition: all 0.4s ease;
     }
+
     h2 {
       margin-bottom: 15px;
       color: #333;
     }
+
     label {
       display: block;
       margin-top: 10px;
@@ -34,6 +43,7 @@
       font-weight: bold;
       color: #444;
     }
+
     input {
       width: 100%;
       padding: 10px;
@@ -42,6 +52,7 @@
       border: 1px solid #ccc;
       font-size: 14px;
     }
+
     button {
       width: 100%;
       margin-top: 15px;
@@ -52,20 +63,25 @@
       font-size: 15px;
       border-radius: 6px;
       cursor: pointer;
+      transition: background 0.3s;
     }
+
     button:hover {
       background: #1e6394;
     }
+
     #toggleMode {
       background: #27ae60;
       margin-top: 8px;
     }
+
     select {
       margin-top: 10px;
       padding: 6px;
       border-radius: 6px;
       border: 1px solid #aaa;
     }
+
     #msg {
       margin-top: 15px;
       font-weight: bold;
@@ -92,7 +108,7 @@
       <input type="password" id="password" required />
 
       <button type="submit" id="submitBtn">Login</button>
-      <button type="button" id="toggleMode" onclick="toggleMode()">Switch to Signup</button>
+      <button type="button" id="toggleMode">Switch to Signup</button>
       <p id="msg"></p>
     </form>
   </div>
@@ -111,7 +127,7 @@
         langLabel: "Choose Language:",
         successLogin: "✅ Login successful!",
         successSignup: "✅ Signup successful!",
-        error: "❌ Invalid credentials!"
+        error: "❌ Invalid credentials!",
       },
       te: {
         loginTitle: "లాగిన్",
@@ -125,7 +141,7 @@
         langLabel: "భాషను ఎంచుకోండి:",
         successLogin: "✅ లాగిన్ విజయవంతమైంది!",
         successSignup: "✅ నమోదు విజయవంతమైంది!",
-        error: "❌ తప్పు వివరాలు!"
+        error: "❌ తప్పు వివరాలు!",
       },
       hi: {
         loginTitle: "लॉगिन",
@@ -139,8 +155,8 @@
         langLabel: "भाषा चुनें:",
         successLogin: "✅ लॉगिन सफल!",
         successSignup: "✅ साइन अप सफल!",
-        error: "❌ गलत विवरण!"
-      }
+        error: "❌ गलत विवरण!",
+      },
     };
 
     let isSignup = false;
@@ -159,6 +175,7 @@
 
     function toggleMode() {
       isSignup = !isSignup;
+      document.body.classList.toggle("signup-mode", isSignup);
       setLanguage();
       document.getElementById("msg").textContent = "";
     }
@@ -178,15 +195,13 @@
         return;
       }
 
-      // ✅ Use full Render URL dynamically
-      const baseURL = window.location.origin;
-      const endpoint = isSignup ? `${baseURL}/signup` : `${baseURL}/login`;
+      const endpoint = isSignup ? "/signup" : "/login";
 
       try {
         const res = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password, role })
+          body: JSON.stringify({ username, password, role }),
         });
 
         const data = await res.json();
@@ -203,7 +218,6 @@
           msg.textContent = data.message || t.error;
         }
       } catch (err) {
-        console.error("Error:", err);
         msg.style.color = "red";
         msg.textContent = "⚠️ Server not responding.";
       }
@@ -213,7 +227,9 @@
       const savedLang = localStorage.getItem("lang") || "en";
       document.getElementById("lang").value = savedLang;
       setLanguage();
+
       document.getElementById("loginForm").addEventListener("submit", handleAuth);
+      document.getElementById("toggleMode").addEventListener("click", toggleMode);
     });
   </script>
 </body>
